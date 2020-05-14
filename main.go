@@ -1,15 +1,27 @@
 package main
 
 import (
-	"flag"
-	"net"
 	"context"
+	"flag"
 	"log"
+	"net"
 
 	"google.golang.org/grpc"
-	"github.com/BinacsLee/Cryptology/cryptofunc"
+	"google.golang.org/grpc/reflection"
+
 	pb "github.com/BinacsLee/Cryptology/api/cryptofunc"
+	"github.com/BinacsLee/Cryptology/cryptofunc"
 )
+
+var fs *funcServer
+
+var algo, port string
+
+func init() {
+	fs = &funcServer{}
+	flag.StringVar(&algo, "algo", "BASE64", "Crypto function name")
+	flag.StringVar(&port, "port", ":8888", "GRPC bind port")
+}
 
 type funcServer struct {
 	f cryptofunc.Func
@@ -25,16 +37,6 @@ func (s *funcServer) Decrypt(ctx context.Context, req *pb.DecryptReq) (*pb.Decry
 	return &pb.DecryptResp{
 		Res: s.f.Decrypt(req.GetSrc()),
 	}, nil
-}
-
-var fs *funcServer
-
-var algo, port string
-
-func init() {
-	fs = &funcServer{}
-	flag.StringVar(&algo, "algo", "BASE64", "Crypto function name")
-	flag.StringVar(&port, "port", ":8888", "GRPC bind port")
 }
 
 func main() {
@@ -57,6 +59,8 @@ func main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterCryptoFuncServer(s, fs)
+
+	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalln("failed to serve: %v", err)
 	}
