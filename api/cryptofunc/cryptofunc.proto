@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package binacs_api_cryptofunc;
+
+service CryptoFunc {
+    rpc Encrypt(EncryptReq) returns (EncryptResp);
+
+    rpc Decrypt(DecryptReq) returns (DecryptResp);
+}
+
+// Encrypt
+message EncryptReq {
+    string src = 1;
+}
+
+message EncryptResp {
+    string res = 1;
+}
+
+// Decrypt
+message DecryptReq {
+    string src = 1;
+}
+
+message DecryptResp {
+    string res = 1;
+}
