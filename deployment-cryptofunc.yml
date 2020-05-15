@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cryptfunc-deployment
+  namespace: cryptfunc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cryptfunc-app
+  template:
+    metadata:
+      labels:
+        app: cryptfunc-app
+    spec:
+      containers:
+      - name: cryptfunc-containers
+        image: binacslee/cryptfunc:latest
+        command: ["/bin/sh","-c","fs --port=:8888 --algo=BASE64"]
+        ports:
+        - name: http
+          containerPort: 8888
