@@ -35,7 +35,9 @@ See `Makefile` please.
 
 ## Test
 
-### Env
+### 1. grpcurl
+
+#### Env
 
 For MacOS:
 
@@ -51,7 +53,7 @@ import "google.golang.org/grpc/reflection"
 reflection.Register(grpcServer)
 ```
 
-### grpcurl
+#### example
 
 Query service list:
 
@@ -108,5 +110,22 @@ $ grpcurl -plaintext -d '{"src":"Z3JwY3VybFRlc3Q="}' localhost:8888 binacs_api_c
 {
   "res": "grpcurlTest"
 }
+```
+
+### 2. grpc-client
+
+A terminal:
+
+```shell
+$ ./bin/fs --algo=BASE64 --port=:8888
+```
+
+Another terminal:
+
+```shell
+$ go run test/client.go --data=clientTest --port=:8888
+2020/05/15 09:08:30 PlainText: clientTest
+2020/05/15 09:08:30 Encrypted: Y2xpZW50VGVzdA==
+2020/05/15 09:08:30 Decrypted: clientTest
 ```
 
