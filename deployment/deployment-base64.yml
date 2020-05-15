@@ -1,17 +1,18 @@
+######
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: cryptfunc-deployment
+  name: cryptfunc-base64
   namespace: cryptfunc
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
-      app: cryptfunc-app
+      app: cryptfunc-base64-app
   template:
     metadata:
       labels:
-        app: cryptfunc-app
+        app: cryptfunc-base64-app
     spec:
       containers:
       - name: cryptfunc-containers

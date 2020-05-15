@@ -117,7 +117,7 @@ $ grpcurl -plaintext -d '{"src":"Z3JwY3VybFRlc3Q="}' localhost:8888 binacs_api_c
 A terminal:
 
 ```shell
-$ ./bin/fs --algo=BASE64 --port=:8888
+$ ./bin/fs --algo=BASE64 --host=localhost --port=:8888
 ```
 
 Another terminal:
