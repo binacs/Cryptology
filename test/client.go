@@ -10,16 +10,18 @@ import (
 	pb "github.com/BinacsLee/Cryptology/api/cryptofunc"
 )
 
-var data, port string
+var data, host, port string
 
 func init() {
 	//flag.StringVar(&algo, "algo", "BASE64", "Crypto function name")
 	flag.StringVar(&data, "data", "clientTest", "Function input, plain-text")
+	flag.StringVar(&host, "host", "localhost", "Host location")
 	flag.StringVar(&port, "port", ":8888", "GRPC bind port")
 }
 
 func main() {
-	conn, err := grpc.Dial("localhost"+port, grpc.WithInsecure())
+	flag.Parse()
+	conn, err := grpc.Dial(host+port, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalln("Dial", err)
 	}
