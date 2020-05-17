@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"golang.org/x/net/context"
@@ -11,6 +12,7 @@ import (
 )
 
 var data, host, port string
+var client pb.CryptoFuncClient
 
 func init() {
 	//flag.StringVar(&algo, "algo", "BASE64", "Crypto function name")
@@ -21,30 +23,41 @@ func init() {
 
 func main() {
 	flag.Parse()
-	conn, err := grpc.Dial(host+port, grpc.WithInsecure())
+	log.Println("GRPC client created, waiting for connection")
+	conn, err := grpc.Dial(host+port, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalln("Dial", err)
 	}
 	defer conn.Close()
 
-	client := pb.NewCryptoFuncClient(conn)
+	client = pb.NewCryptoFuncClient(conn)
+	log.Println("Initial Test ...")
+	doTest(data)
+	log.Println("Initial Test Succeed.")
+	for {
+		fmt.Println("========> Please enter the data you want to test")
+		fmt.Scanln(&data)
+		doTest(data)
+	}
+}
 
+func doTest(data string) {
 	req1 := &pb.EncryptReq{
 		Src: data,
 	}
-	resp := doEncrypt(client, req1)
+	resp := doEncrypt(req1)
 
 	req2 := &pb.DecryptReq{
 		Src: resp,
 	}
-	rstr := doDecrypt(client, req2)
+	rstr := doDecrypt(req2)
 
 	log.Println("PlainText:", data)
 	log.Println("Encrypted:", resp)
 	log.Println("Decrypted:", rstr)
 }
 
-func doEncrypt(client pb.CryptoFuncClient, req *pb.EncryptReq) string {
+func doEncrypt(req *pb.EncryptReq) string {
 	resp, err := client.Encrypt(context.Background(), req)
 	if err != nil {
 		log.Fatalln("doEncrypt", err)
@@ -52,7 +65,7 @@ func doEncrypt(client pb.CryptoFuncClient, req *pb.EncryptReq) string {
 	return resp.GetRes()
 }
 
-func doDecrypt(client pb.CryptoFuncClient, req *pb.DecryptReq) string {
+func doDecrypt(req *pb.DecryptReq) string {
 	resp, err := client.Decrypt(context.Background(), req)
 	if err != nil {
 		log.Fatalln("doEncrypt", err)

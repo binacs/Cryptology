@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cryptfunc-aes-svc
+  namespace: cryptfunc
 spec:
   type: NodePort
   selector:

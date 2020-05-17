@@ -117,13 +117,13 @@ $ grpcurl -plaintext -d '{"src":"Z3JwY3VybFRlc3Q="}' localhost:8888 binacs_api_c
 A terminal:
 
 ```shell
-$ ./bin/fs --algo=BASE64 --host=localhost --port=:8888
+$ ./bin/fs --algo=BASE64 --port=localhost:8888
 ```
 
 Another terminal:
 
 ```shell
-$ go run test/client.go --data=clientTest --port=:8888
+$ go run test/client.go --data=clientTest --host=localhost --port=:8888
 2020/05/15 09:08:30 PlainText: clientTest
 2020/05/15 09:08:30 Encrypted: Y2xpZW50VGVzdA==
 2020/05/15 09:08:30 Decrypted: clientTest
