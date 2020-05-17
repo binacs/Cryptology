@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+  name: cryptfunc-ingress
+  namespace: cryptfunc
+spec:
+  rules:
+  - host: cryptfunc.service.binacs.cn
+    http:
+      paths:
+      - path: /base64
+        backend:
+          serviceName: cryptfunc-base64-svc
+          servicePort: 8888
+      - path: /aes
+        backend:
+          serviceName: cryptfunc-aes-svc
+          servicePort: 8888
+      - path: /des
+        backend:
+          serviceName: cryptfunc-des-svc
+          servicePort: 8888
+  tls:
+  - secretName: grpcs-secret
+    hosts:
+      - binacs.cn
