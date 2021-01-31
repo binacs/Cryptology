@@ -68,8 +68,8 @@ Query service functions:
 
 ```shell
 $ grpcurl -plaintext  localhost:8888 list binacs_api_cryptofunc.CryptoFunc
-binacs_api_cryptofunc.CryptoFunc.Decrypt
-binacs_api_cryptofunc.CryptoFunc.Encrypt
+binacs_api_cryptofunc.CryptoFunc.CryptoDecrypt
+binacs_api_cryptofunc.CryptoFunc.CryptoEncrypt
 ```
 
 
@@ -79,8 +79,8 @@ More information:
 $ grpcurl -plaintext  localhost:8888 describe binacs_api_cryptofunc.CryptoFunc
 binacs_api_cryptofunc.CryptoFunc is a service:
 service CryptoFunc {
-  rpc Decrypt ( .binacs_api_cryptofunc.DecryptReq ) returns ( .binacs_api_cryptofunc.DecryptResp );
-  rpc Encrypt ( .binacs_api_cryptofunc.EncryptReq ) returns ( .binacs_api_cryptofunc.EncryptResp );
+  rpc CryptoDecrypt ( .binacs_api_cryptofunc.DecryptReq ) returns ( .binacs_api_cryptofunc.DecryptResp );
+  rpc CryptoEncrypt ( .binacs_api_cryptofunc.EncryptReq ) returns ( .binacs_api_cryptofunc.EncryptResp );
 }
 ```
 
@@ -99,14 +99,14 @@ message EncryptReq {
 Do service call:
 
 ```shell
-$ grpcurl -plaintext -d '{"src":"grpcurlTest"}' localhost:8888 binacs_api_cryptofunc.CryptoFunc/Encrypt
+$ grpcurl -plaintext -d '{"src":"grpcurlTest"}' localhost:8888 binacs_api_cryptofunc.CryptoFunc/CryptoEncrypt
 {
   "res": "Z3JwY3VybFRlc3Q="
 }
 ```
 
 ```shell
-$ grpcurl -plaintext -d '{"src":"Z3JwY3VybFRlc3Q="}' localhost:8888 binacs_api_cryptofunc.CryptoFunc/Decrypt
+$ grpcurl -plaintext -d '{"src":"Z3JwY3VybFRlc3Q="}' localhost:8888 binacs_api_cryptofunc.CryptoFunc/CryptoDecrypt
 {
   "res": "grpcurlTest"
 }

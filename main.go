@@ -9,7 +9,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/BinacsLee/Cryptology/api/cryptofunc"
+	pb "github.com/BinacsLee/server/api/crypto"
+
 	"github.com/BinacsLee/Cryptology/cryptofunc"
 )
 
@@ -27,15 +28,19 @@ type funcServer struct {
 	f cryptofunc.Func
 }
 
-func (s *funcServer) Encrypt(ctx context.Context, req *pb.EncryptReq) (*pb.EncryptResp, error) {
-	return &pb.EncryptResp{
-		Res: s.f.Encrypt(req.GetSrc()),
+func (s *funcServer) CryptoEncrypt(ctx context.Context, req *pb.CryptoEncryptReq) (*pb.CryptoEncryptResp, error) {
+	return &pb.CryptoEncryptResp{
+		Data: &pb.CryptoEncryptResObj{
+			EncryptText: s.f.CryptoEncrypt(req.GetPlainText()),
+		},
 	}, nil
 }
 
-func (s *funcServer) Decrypt(ctx context.Context, req *pb.DecryptReq) (*pb.DecryptResp, error) {
-	return &pb.DecryptResp{
-		Res: s.f.Decrypt(req.GetSrc()),
+func (s *funcServer) CryptoDecrypt(ctx context.Context, req *pb.CryptoDecryptReq) (*pb.CryptoDecryptResp, error) {
+	return &pb.CryptoDecryptResp{
+		Data: &pb.CryptoDecryptResObj{
+			PlainText: s.f.CryptoDecrypt(req.GetEncryptText()),
+		},
 	}, nil
 }
 
@@ -58,7 +63,7 @@ func main() {
 		log.Fatalln("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterCryptoFuncServer(s, fs)
+	pb.RegisterCryptoServer(s, fs)
 
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {

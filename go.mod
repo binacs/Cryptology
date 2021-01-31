@@ -1,9 +1,9 @@
 module github.com/BinacsLee/Cryptology
 
-go 1.14
+go 1.15
 
 require (
-	github.com/golang/protobuf v1.4.0
-	google.golang.org/grpc v1.29.1
-	google.golang.org/protobuf v1.22.0
+	github.com/BinacsLee/server v0.0.0-20210130155151-8441cbda7159
+	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
+	google.golang.org/grpc v1.35.0
 )

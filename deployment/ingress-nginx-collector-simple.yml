@@ -216,8 +216,10 @@ spec:
       serviceAccountName: nginx-ingress-serviceaccount
       nodeSelector:
         kubernetes.io/os: linux
-        # binacs: select aliyun
-        labelName: aliyun
+        # binacs: select qcloud master
+        labelName: master
+      # binacs: hostNetwork
+      hostNetwork: true
       containers:
         - name: nginx-ingress-controller
           # image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.30.0
@@ -249,11 +251,11 @@ spec:
                   fieldPath: metadata.namespace
           ports:
             - name: http
-              # binacs: 80 => 9080
+              # binacs: 80
               containerPort: 80
               protocol: TCP
             - name: https
-              # binacs: 443 => 9443
+              # binacs: 443
               containerPort: 443
               protocol: TCP
           livenessProbe:

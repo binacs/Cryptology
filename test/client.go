@@ -8,11 +8,11 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	pb "github.com/BinacsLee/Cryptology/api/cryptofunc"
+	pb "github.com/BinacsLee/server/api/crypto"
 )
 
 var data, host, port string
-var client pb.CryptoFuncClient
+var client pb.CryptoClient
 
 func init() {
 	//flag.StringVar(&algo, "algo", "BASE64", "Crypto function name")
@@ -23,14 +23,14 @@ func init() {
 
 func main() {
 	flag.Parse()
-	log.Println("GRPC client created, waiting for connection")
+	log.Println("GRPC client created, waiting for connection:", host+port)
 	conn, err := grpc.Dial(host+port, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalln("Dial", err)
 	}
 	defer conn.Close()
 
-	client = pb.NewCryptoFuncClient(conn)
+	client = pb.NewCryptoClient(conn)
 	log.Println("Initial Test ...")
 	doTest(data)
 	log.Println("Initial Test Succeed.")
@@ -42,13 +42,13 @@ func main() {
 }
 
 func doTest(data string) {
-	req1 := &pb.EncryptReq{
-		Src: data,
+	req1 := &pb.CryptoEncryptReq{
+		PlainText: data,
 	}
 	resp := doEncrypt(req1)
 
-	req2 := &pb.DecryptReq{
-		Src: resp,
+	req2 := &pb.CryptoDecryptReq{
+		EncryptText: resp,
 	}
 	rstr := doDecrypt(req2)
 
@@ -57,18 +57,18 @@ func doTest(data string) {
 	log.Println("Decrypted:", rstr)
 }
 
-func doEncrypt(req *pb.EncryptReq) string {
-	resp, err := client.Encrypt(context.Background(), req)
+func doEncrypt(req *pb.CryptoEncryptReq) string {
+	resp, err := client.CryptoEncrypt(context.Background(), req)
 	if err != nil {
 		log.Fatalln("doEncrypt", err)
 	}
-	return resp.GetRes()
+	return resp.GetData().GetEncryptText()
 }
 
-func doDecrypt(req *pb.DecryptReq) string {
-	resp, err := client.Decrypt(context.Background(), req)
+func doDecrypt(req *pb.CryptoDecryptReq) string {
+	resp, err := client.CryptoDecrypt(context.Background(), req)
 	if err != nil {
 		log.Fatalln("doEncrypt", err)
 	}
-	return resp.GetRes()
+	return resp.GetData().GetPlainText()
 }

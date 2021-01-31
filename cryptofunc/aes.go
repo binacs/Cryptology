@@ -28,7 +28,7 @@ func aesUnpadding(src []byte) []byte {
 	return src[:n-unPadNum]
 }
 
-func (a *Aes) Encrypt(src string) string {
+func (a *Aes) CryptoEncrypt(src string) string {
 	srcb := []byte(src)
 	block, err := aes.NewCipher(aesKey)
 	if err != nil {
@@ -41,7 +41,7 @@ func (a *Aes) Encrypt(src string) string {
 	return base64.StdEncoding.EncodeToString(srcb)
 }
 
-func (a *Aes) Decrypt(src string) string {
+func (a *Aes) CryptoDecrypt(src string) string {
 	crypted, _ := base64.StdEncoding.DecodeString(src)
 	srcb := crypted
 	block, err := aes.NewCipher(aesKey)

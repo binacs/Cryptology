@@ -15,7 +15,7 @@ func init() {
 	desKey = []byte("BinacsKI")
 }
 
-func (d *Des) Encrypt(src string) string {
+func (d *Des) CryptoEncrypt(src string) string {
 	block, _ := des.NewCipher(desKey)
 	srcd := PKCS5Padding([]byte(src), block.BlockSize())
 	blockMode := cipher.NewCBCEncrypter(block, desKey)
@@ -24,7 +24,7 @@ func (d *Des) Encrypt(src string) string {
 	return base64.StdEncoding.EncodeToString(crypted)
 }
 
-func (d *Des) Decrypt(src string) string {
+func (d *Des) CryptoDecrypt(src string) string {
 	crypted, _ := base64.StdEncoding.DecodeString(src)
 	block, _ := des.NewCipher(desKey)
 	blockMode := cipher.NewCBCDecrypter(block, desKey)
