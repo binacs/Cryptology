@@ -9,9 +9,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/BinacsLee/server/api/crypto"
+	pb "github.com/binacs/server/api/crypto"
 
-	"github.com/BinacsLee/Cryptology/cryptofunc"
+	"github.com/binacs/Cryptology/cryptofunc"
 )
 
 var fs *funcServer

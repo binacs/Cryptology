@@ -8,7 +8,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	pb "github.com/BinacsLee/server/api/crypto"
+	pb "github.com/binacs/server/api/crypto"
 )
 
 var data, host, port string

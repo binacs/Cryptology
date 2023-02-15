@@ -5,7 +5,7 @@ REBUILD in 2020:  **As an example of serverless**.
 ## Quick Start
 
 ```shell
-$ git clone https://github.com/BinacsLee/Cryptology.git
+$ git clone https://github.com/binacs/Cryptology.git
 
 $ cd Cryptology
 

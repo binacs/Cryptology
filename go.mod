@@ -1,9 +1,18 @@
-module github.com/BinacsLee/Cryptology
+module github.com/binacs/Cryptology
 
-go 1.15
+go 1.19
 
 require (
-	github.com/BinacsLee/server v0.0.0-20210130155151-8441cbda7159
-	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
-	google.golang.org/grpc v1.35.0
+	github.com/binacs/server v0.0.0-20230214003624-169fd90e2189
+	golang.org/x/net v0.5.0
+	google.golang.org/grpc v1.53.0
+)
+
+require (
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
+	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/text v0.6.0 // indirect
+	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 )
